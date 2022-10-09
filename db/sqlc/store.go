@@ -8,7 +8,7 @@ import (
 
 type Store interface {
 	Querier
-	TransferTx(ctx context.Context, arg TrasferTxParams) (TransferTxResult, error)
+	TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error)
 }
 
 // Provee todas las funciones para ejecutar consultas SQL a la base de datos y transacciones
@@ -44,7 +44,7 @@ func (store *SQLStore) execTx(ctx context.Context, fn func(*Queries) error) erro
 }
 
 // Contiene todos los parámetros de entrada de una transacción de transferencia
-type TrasferTxParams struct {
+type TransferTxParams struct {
 	FromAccountID int64 `json:"from_account_id"`
 	ToAccountID   int64 `json:"to_account_id"`
 	Amount        int64 `json:"amount"`
@@ -61,7 +61,7 @@ type TransferTxResult struct {
 
 // Transfiere de una cuenta a otra
 // Crea un registro de transferencia, añade entradas de cuentas, y actualiza el balance de cuentas, todo en una sola trasacción
-func (store *SQLStore) TransferTx(ctx context.Context, arg TrasferTxParams) (TransferTxResult, error) {
+func (store *SQLStore) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
 	err := store.execTx(ctx, func(q *Queries) error {
